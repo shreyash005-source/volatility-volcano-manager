@@ -19,3 +19,9 @@ def calculate_risk(volatility, exposure):
     Core risk calculation logic
     """
     return round((volatility * exposure) / 100, 2)
+def hedge_exposure(exposure):
+    """
+    Simulates hedging by reducing exposure
+    """
+    reduced = exposure * 0.8  # reduce by 20%
+    return round(reduced, 2)
