@@ -1,35 +1,35 @@
 from flask import Flask, jsonify
-import random
+from risk_engine import (
+    generate_volatility,
+    generate_exposure,
+    calculate_risk
+)
 
 app = Flask(__name__)
 
-# Home route (health check)
 @app.route("/")
 def home():
     return jsonify({
         "message": "Volatility Volcano Manager API is running 🚀"
     })
 
-# Market volatility simulator
 @app.route("/market")
 def market_volatility():
-    volatility = round(random.uniform(10, 80), 2)
+    volatility = generate_volatility()
     return jsonify({
         "volatility": volatility,
         "unit": "VIX-like index"
     })
 
-# Risk calculation endpoint
 @app.route("/risk")
 def risk_score():
-    volatility = random.uniform(10, 80)
-    exposure = random.uniform(50, 150)
-
-    risk = round((volatility * exposure) / 100, 2)
+    volatility = generate_volatility()
+    exposure = generate_exposure()
+    risk = calculate_risk(volatility, exposure)
 
     return jsonify({
-        "volatility": round(volatility, 2),
-        "exposure": round(exposure, 2),
+        "volatility": volatility,
+        "exposure": exposure,
         "risk_score": risk
     })
 
